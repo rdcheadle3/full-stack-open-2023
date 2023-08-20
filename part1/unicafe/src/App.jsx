@@ -19,6 +19,12 @@ const App = () => {
 		bad: 0,
 	});
 
+	const feedbackValues = {
+		good: 1,
+		neutral: 0,
+		bad: -1,
+	};
+
 	const handleButtonClicked = (type) => {
 		console.log(`${type} clicked`);
 
@@ -31,6 +37,20 @@ const App = () => {
 			return updatedFeedback;
 		});
 	};
+
+	const weightedFeedback = {
+		good: feedback.good * feedbackValues.good,
+		neutral: feedback.neutral * feedbackValues.neutral,
+		bad: feedback.bad * feedbackValues.bad,
+	};
+
+	const averageFeedback =
+		(weightedFeedback.good + weightedFeedback.neutral + weightedFeedback.bad) /
+		(feedback.good + feedback.neutral + feedback.bad);
+
+	const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+
+	const positiveFeedback = (feedback.good / totalFeedback) * 100 + " %";
 
 	return (
 		<div>
@@ -45,6 +65,9 @@ const App = () => {
 			<Display label="good" value={feedback.good} />
 			<Display label="neutral" value={feedback.neutral} />
 			<Display label="bad" value={feedback.bad} />
+			<Display label="all" value={totalFeedback} />
+			<Display label="average" value={averageFeedback} />
+			<Display label="positive" value={positiveFeedback} />
 		</div>
 	);
 };
