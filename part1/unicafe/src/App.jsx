@@ -6,7 +6,11 @@ const Button = ({ handleClick, text }) => (
 	<button onClick={handleClick}>{text}</button>
 );
 
-const Display = ({ value }) => <div>{value}</div>;
+const Display = ({ label, value }) => (
+	<div>
+		{label} {value}
+	</div>
+);
 
 const App = () => {
 	const [feedback, setFeedback] = useState({
@@ -18,9 +22,14 @@ const App = () => {
 	const handleButtonClicked = (type) => {
 		console.log(`${type} clicked`);
 
-		setFeedback({ ...feedback, [type]: feedback[type] + 1 });
-
-		console.log(feedback);
+		setFeedback((prevFeedback) => {
+			const updatedFeedback = {
+				...prevFeedback,
+				[type]: prevFeedback[type] + 1,
+			};
+			console.log(updatedFeedback);
+			return updatedFeedback;
+		});
 	};
 
 	return (
@@ -33,9 +42,9 @@ const App = () => {
 			/>
 			<Button handleClick={() => handleButtonClicked("bad")} text="bad" />
 			<Header text="statistics" />
-			<Display value={feedback.good} />
-			<Display value={feedback.neutral} />
-			<Display value={feedback.bad} />
+			<Display label="good" value={feedback.good} />
+			<Display label="neutral" value={feedback.neutral} />
+			<Display label="bad" value={feedback.bad} />
 		</div>
 	);
 };
